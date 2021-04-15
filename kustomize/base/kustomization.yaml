@@ -1,0 +1,11 @@
+commonLabels:
+  app: api
+
+resources:
+  - deployment.yaml
+  - service.yaml
+
+images:
+  - name: ${SERVICE_NAME}
+    newName: ghcr.io/${ORG_NAME}/${SERVICE_NAME}
+    newTag: $IMAGE_TAG

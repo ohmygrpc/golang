@@ -1,0 +1,20 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: ${SERVICE_NAME}
+  labels:
+    app: ${SERVICE_NAME}
+spec:
+  ports:
+    - name: grpc
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+    - name: http
+      protocol: TCP
+      port: 18080
+      targetPort: 18080
+  selector:
+    app: ${SERVICE_NAME}
+  type: ClusterIP
+  sessionAffinity: None
