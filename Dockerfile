@@ -6,15 +6,11 @@ ENV SERVICE_NAME=golang
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 
-WORKDIR /${SERVICE_NAME}
-COPY . .
+WORKDIR /${SERVICE_NAME}/bin
+COPY ./bin ./
 
-WORKDIR /${SERVICE_NAME}/cmd
-
-RUN CGO_ENABLED=0 \
-    GOOS=$(echo "$TARGETPLATFORM" | cut -d '/' -f1) \
-    GOARCH=$(echo "$TARGETPLATFORM" | cut -d '/' -f2) \
-    go build -a -installsuffix cgo -ldflags="-w -s" -o /${SERVICE_NAME}/bin/${SERVICE_NAME}
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then mv ${SERVICE_NAME}.linux.amd64 ${SERVICE_NAME} ; fi
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then mv ${SERVICE_NAME}.linux.arm64 ${SERVICE_NAME} ; fi
 
 
 FROM --platform=$TARGETPLATFORM gcr.io/distroless/base

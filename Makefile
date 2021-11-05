@@ -2,11 +2,6 @@ GOPATH:=$(shell go env GOPATH)
 ORG_NAME?=ohmygrpc
 SERVICE_NAME?=echo
 
-.PHONY: init
-## init: initialize the application(api)
-init:
-	go mod download
-
 .PHONY: build
 ## build: build the application(api)
 build:
