@@ -2,12 +2,15 @@ GOPATH:=$(shell go env GOPATH)
 ORG_NAME?=ohmygrpc
 SERVICE_NAME?=echo
 
+.PHONY: init
+## init: initialize the application(api)
+init:
+	go mod download
+
 .PHONY: build
 ## build: build the application(api)
 build:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags="-w -s" -o bin/${SERVICE_NAME}.linux.amd64 cmd/main.go
-	CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -a -installsuffix cgo -ldflags="-w -s" -o bin/${SERVICE_NAME}.linux.arm64 cmd/main.go
-	CGO_ENABLED=0 go build -a -installsuffix cgo -ldflags="-w -s" -o bin/${SERVICE_NAME} cmd/main.go
+	go build -o bin/${SERVICE_NAME} cmd/main.go
 
 .PHONY: run
 ## run: run the application(api)
